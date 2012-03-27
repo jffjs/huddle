@@ -1,0 +1,16 @@
+%h1= @post.title
+%p= @post.body
+/ Comment form
+= simple_form_for [@post, @new_comment] do |f|
+  = f.input :body, label: "Comment"
+  = f.button :submit, value: "Reply"
+/ Comments
+%ul
+  - @post.comments.each do |comment|
+    %li.well.comment
+      %p= comment.body
+      = simple_form_for [@post, Comment.new] do |f|
+        = hidden_field_tag "comment_id", comment.id
+        = f.input :body, label: nil
+        = f.button :submit, value: "Reply"
+      = render :partial => 'comments/children', locals: { comment: comment }

@@ -1,0 +1,10 @@
+- if comment.child_comments.size > 0
+  %ul
+    - comment.child_comments.each do |child_comment|
+      %li.well.comment
+        %p= child_comment.body
+        = simple_form_for [@post, Comment.new] do |f|
+          = hidden_field_tag "comment_id", child_comment.id
+          = f.input :body, label: nil
+          = f.button :submit, value: "Reply"
+        = render :partial => 'comments/children', locals: { comment: child_comment }
